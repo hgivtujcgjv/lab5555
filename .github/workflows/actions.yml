@@ -21,7 +21,3 @@ jobs:
         run: cmake --build _build
       - name: 4
         run: cmake --build _build --target test -- ARGS=--verbose
-      - name: 5
-        run: |
-          mkdir artifacts
-          sleep 20s && gnome-screenshot --file artifacts/screenshot.png
