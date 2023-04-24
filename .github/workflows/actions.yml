@@ -25,8 +25,4 @@ jobs:
       - name: 6
         run: |
           pip install cpp-coveralls
-          coveralls --exclude lib --exclude tests --gcov-options '\-lp'
-      - name: 7
-        uses: coverallsapp/github-action@v1
-        with:
-          github-token: ${{ github.token }}
+          coveralls --exclude lib --exclude tests --gcov-options '\-lp' t ${{ secrets.COVERALLS_REPO_TOKEN }}
