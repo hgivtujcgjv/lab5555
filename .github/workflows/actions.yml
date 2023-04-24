@@ -22,12 +22,11 @@ jobs:
         run: cmake --build _build
       - name: 4
         run: cmake --build _build --target test -- ARGS=--verbose
-      - name: Publish to coveralls.io
-        uses: coverallsapp/github-action@v1.1.2
-        with:
-          github-token: ${{ github.token }}
-      - name: 5
+      - name: 6
         run: |
          pip install cpp-coveralls
          coveralls --exclude lib --exclude tests --gcov-options '\-lp'
-
+      - name: 7
+        uses: coverallsapp/github-action@v1.1.2
+        with:
+          github-token: ${{ github.token }}
