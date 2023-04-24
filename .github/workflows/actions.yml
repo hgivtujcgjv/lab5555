@@ -25,4 +25,4 @@ jobs:
       - name: 6
         run: |
           pip install cpp-coveralls
-          coveralls --exclude lib --gcov-options '\-lp' --repo-token GmIDlXafT2XqtWvKZnDlTXzTpNr69QRs4
+          coveralls --exclude banking --gcov-options '\-lp' --repo-token GmIDlXafT2XqtWvKZnDlTXzTpNr69QRs4
