@@ -25,7 +25,7 @@ jobs:
       - name: 6
         run: |
           pip install cpp-coveralls
-          export COVERALLS_REPO_TOKEN=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
+          export COVERALLS_REPO_TOKEN=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
           coveralls --exclude lib --exclude tests --gcov-options '\-lp'
       - name: 7
         uses: coverallsapp/github-action@v1.1.2
