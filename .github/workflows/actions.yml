@@ -27,6 +27,6 @@ jobs:
           pip install cpp-coveralls
           coveralls --exclude lib --exclude tests --gcov-options '\-lp'
       - name: 7
-        uses: coverallsapp/github-action@v1.1.2
+        uses: coverallsapp/github-action@v1
         with:
           github-token: ${{ github.token }}
