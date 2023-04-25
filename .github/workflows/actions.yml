@@ -29,7 +29,7 @@ jobs:
         run: sudo apt-get install -y lcov
       - name: cover
         run: |
-          lcov -c -d _build/ -o ./lcov_tmp.info -r '../' -r 'googletest'
+          lcov -c -d _build/ -o ./lcov_tmp.info --exclude '../' -exclude 'googletest'
       - name: save coverage
         uses: coverallsapp/github-action@v2
         with:
