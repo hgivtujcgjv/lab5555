@@ -1,5 +1,6 @@
 name: CI
 
+
 on:
   push:
     branches: [ master ]
@@ -11,19 +12,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: 1
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libboost-test-dev
+      #- name: 1
+        #run: |
+         # sudo apt-get update
+          #sudo apt-get install -y libboost-test-dev
       - name: 2
         run: cmake -H. -B_build -DBUILD_TESTS=ON
       - name: 3
         run: cmake --build _build
       - name: 4
-        run: cmake --build _build --target test -- ARGS=--verbose
-      - name: 5
-        run: cmake --build _build --target install
-      - name: last
+        #run: cmake --build _build --target test -- ARGS=--verbose
         run: |
-          mkdir artifacts
-          sleep 20s && gnome-screenshot --file artifacts/screenshot.png
+          cmake --build _build --target tests
+          cd _build
+          ./test
+      - name: lcov
+        run: sudo apt-get install -y lcov
+      - name: cover
+        run: |
+          lcov -c -d _build/ -o ./lcov_tmp.info
+          lcov -r ./lcov_tmp '*googletest*' '*usr*' -o ./lcov.info
+      - name: save coverage
+        uses: coverallsapp/github-action@master
+        with:
+            path-to-lcov: "./lcov.info"
+            github-token: ${{ secrets.github_token }}
+        # coveralls --exclude banking --exclude lib --gcov-options '\-lp' --repo-token GmIDlXafT2XqtWvKZnDlTXzTpNr69QRs4
+
