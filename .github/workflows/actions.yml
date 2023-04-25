@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      #- name: 1
-        #run: |
-         # sudo apt-get update
-          #sudo apt-get install -y libboost-test-dev
+      - name: 1
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-test-dev
       - name: 2
         run: cmake -H. -B_build -DBUILD_TESTS=ON
       - name: 3
