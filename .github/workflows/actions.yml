@@ -22,8 +22,18 @@ jobs:
         run: cmake --build _build
       - name: 4
         #run: cmake --build _build --target test -- ARGS=--verbose
-        run: cmake --build _build --target test
-      - name: 6
         run: |
-          pip install cpp-coveralls
-          coveralls --exclude banking --exclude lib --gcov-options '\-lp' --repo-token GmIDlXafT2XqtWvKZnDlTXzTpNr69QRs4
+          cmake --build _build --target test
+          cd _build
+          ./test
+      - name: lcov
+        run: sudo apt-get install -y lcov
+      - name: cover
+        run: |
+          lcov -c -d _build/ -o ./lcov_tmp.info
+      - name: cover
+        uses: coverallsapp/github-action@master
+        with:
+            path-to-lcov: "./lcov_tmp.info"
+            github-token: ${{ secrets.github_token }}
+        # coveralls --exclude banking --exclude lib --gcov-options '\-lp' --repo-token GmIDlXafT2XqtWvKZnDlTXzTpNr69QRs4
