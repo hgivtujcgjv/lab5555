@@ -7,7 +7,7 @@ project(banking)
 option(BUILD_TESTS "build" ON)
 
 include_directories(banking)
-add_subdirectory(googletest)
+add_subdirectory(Gtest/googletest)
 add_library(banking STATIC
         banking/Account.cpp
         banking/Transaction.cpp)

@@ -299,7 +299,7 @@ banking_IS_TOP_LEVEL:STATIC=ON
 banking_SOURCE_DIR:STATIC=/home/user1111/lab5555
 
 //Value Computed by CMake
-gmock_BINARY_DIR:STATIC=/home/user1111/lab5555/_build/googletest/googlemock
+gmock_BINARY_DIR:STATIC=/home/user1111/lab5555/_build/Gtest/googletest/googlemock
 
 //Value Computed by CMake
 gmock_IS_TOP_LEVEL:STATIC=OFF
@@ -308,7 +308,7 @@ gmock_IS_TOP_LEVEL:STATIC=OFF
 gmock_LIB_DEPENDS:STATIC=general;gtest;
 
 //Value Computed by CMake
-gmock_SOURCE_DIR:STATIC=/home/user1111/lab5555/googletest/googlemock
+gmock_SOURCE_DIR:STATIC=/home/user1111/lab5555/Gtest/googletest/googlemock
 
 //Build all of Google Mock's own tests.
 gmock_build_tests:BOOL=OFF
@@ -317,22 +317,22 @@ gmock_build_tests:BOOL=OFF
 gmock_main_LIB_DEPENDS:STATIC=general;gmock;
 
 //Value Computed by CMake
-googletest-distribution_BINARY_DIR:STATIC=/home/user1111/lab5555/_build/googletest
+googletest-distribution_BINARY_DIR:STATIC=/home/user1111/lab5555/_build/Gtest/googletest
 
 //Value Computed by CMake
 googletest-distribution_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-googletest-distribution_SOURCE_DIR:STATIC=/home/user1111/lab5555/googletest
+googletest-distribution_SOURCE_DIR:STATIC=/home/user1111/lab5555/Gtest/googletest
 
 //Value Computed by CMake
-gtest_BINARY_DIR:STATIC=/home/user1111/lab5555/_build/googletest/googletest
+gtest_BINARY_DIR:STATIC=/home/user1111/lab5555/_build/Gtest/googletest/googletest
 
 //Value Computed by CMake
 gtest_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-gtest_SOURCE_DIR:STATIC=/home/user1111/lab5555/googletest/googletest
+gtest_SOURCE_DIR:STATIC=/home/user1111/lab5555/Gtest/googletest/googletest
 
 //Build gtest's sample programs.
 gtest_build_samples:BOOL=OFF
@@ -352,6 +352,15 @@ gtest_hide_internal_symbols:BOOL=OFF
 
 //Dependencies for the target
 gtest_main_LIB_DEPENDS:STATIC=general;gtest;
+
+//Value Computed by CMake
+tests_BINARY_DIR:STATIC=/home/user1111/lab5555/_build
+
+//Value Computed by CMake
+tests_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+tests_SOURCE_DIR:STATIC=/home/user1111/lab5555
 
 
 ########################
@@ -563,7 +572,7 @@ _Python_Interpreter_REASON_FAILURE:INTERNAL=
 //NumPy reason failure
 _Python_NumPy_REASON_FAILURE:INTERNAL=
 cmake_package_name:INTERNAL=GTest
-generated_dir:INTERNAL=/home/user1111/lab5555/_build/googletest/googletest/generated
+generated_dir:INTERNAL=/home/user1111/lab5555/_build/Gtest/googletest/googletest/generated
 //ADVANCED property for variable: gmock_build_tests
 gmock_build_tests-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: gtest_build_samples
