@@ -21,7 +21,6 @@ jobs:
       - name: 3
         run: cmake --build _build
       - name: 4
-        #run: cmake --build _build --target tests -- ARGS=--verbose
         run: |
           cmake --build _build --target tests
           cd _build
@@ -36,4 +35,4 @@ jobs:
         with:
             path-to-lcov: "./lcov_tmp.info"
             github-token: ${{ secrets.github_token }}
-        # coveralls --exclude banking --exclude lib --gcov-options '\-lp' --repo-token GmIDlXafT2XqtWvKZnDlTXzTpNr69QRs4
+      
