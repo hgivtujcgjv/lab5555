@@ -29,13 +29,10 @@ jobs:
         run: sudo apt-get install -y lcov
       - name: Generate coverage report
         run: |
-            lcov --directory _build --capture --output-file ./coverage.info
-            lcov --remove ./coverage.info '/usr/*' --output-file ./coverage.info
-            lcov --remove ./coverage.info '*/googletest/*' --output-file ./coverage.info
-            lcov --extract ./coverage.info '*/banking/*' --output-file ./coverage.info
-            lcov --list coverage.info
+            lcov --capture --directory _build/ -o ./coverage.info
+            lcov -r ./coverage.info '*googletest*'  '*usr*' -o ./coverage2.info
       - name: save coverage
         uses: coverallsapp/github-action@master
         with:
-            path-to-lcov: "./coverage.info"
+            path-to-lcov: "./coverage2.info"
             github-token: ${{ secrets.github_token }}
