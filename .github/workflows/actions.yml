@@ -12,11 +12,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: 1
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libboost-test-dev
       - name: 2
         run: cmake -H. -B_build -DCOVERAGE=ON
       - name: 3
@@ -39,3 +34,8 @@ jobs:
         with:
             path-to-lcov: "./lcov.info"
             github-token: ${{ secrets.github_token }}
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+            name: coverage-report
+            path: out/
