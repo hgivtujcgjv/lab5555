@@ -31,7 +31,7 @@ jobs:
       - name: cover
         run: |
           lcov -c -d _build/  -o ./lcov_tmp.info
-          lcov -r ./lcov2.info '*googletest*'  '*usr*' -o ./lcov.info
+          lcov -r ./lcov.info '*googletest*'  '*usr*' -o ./lcov.info
       - name: save coverage
         uses: coverallsapp/github-action@master
         with:
