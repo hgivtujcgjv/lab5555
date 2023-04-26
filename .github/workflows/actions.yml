@@ -23,7 +23,7 @@ jobs:
         run: cmake --build _build
       - name: 4
         run: |
-          cmake --build _build --target test_acc
+          cmake --build _build --target tests
           cd _build
           ./test_acc
       - name: lcov
