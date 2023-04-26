@@ -65,16 +65,6 @@ CMAKE_BINARY_DIR = /home/user1111/lab5555/_build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/snap/cmake/1288/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-.PHONY : test/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
@@ -172,30 +162,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named banking
+# Target rules for targets named test_acc
 
 # Build rule for target.
-banking: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 banking
-.PHONY : banking
+test_acc: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_acc
+.PHONY : test_acc
 
 # fast build rule for target.
-banking/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/banking.dir/build.make CMakeFiles/banking.dir/build
-.PHONY : banking/fast
+test_acc/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_acc.dir/build.make CMakeFiles/test_acc.dir/build
+.PHONY : test_acc/fast
 
 #=============================================================================
-# Target rules for targets named tests
+# Target rules for targets named test_tr
 
 # Build rule for target.
-tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests
-.PHONY : tests
+test_tr: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_tr
+.PHONY : test_tr
 
 # fast build rule for target.
-tests/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
-.PHONY : tests/fast
+test_tr/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tr.dir/build.make CMakeFiles/test_tr.dir/build
+.PHONY : test_tr/fast
 
 #=============================================================================
 # Target rules for targets named gmock
@@ -207,7 +197,7 @@ gmock: cmake_check_build_system
 
 # fast build rule for target.
 gmock/fast:
-	$(MAKE) $(MAKESILENT) -f Gtest/googletest/googlemock/CMakeFiles/gmock.dir/build.make Gtest/googletest/googlemock/CMakeFiles/gmock.dir/build
+	$(MAKE) $(MAKESILENT) -f googletest/googlemock/CMakeFiles/gmock.dir/build.make googletest/googlemock/CMakeFiles/gmock.dir/build
 .PHONY : gmock/fast
 
 #=============================================================================
@@ -220,7 +210,7 @@ gmock_main: cmake_check_build_system
 
 # fast build rule for target.
 gmock_main/fast:
-	$(MAKE) $(MAKESILENT) -f Gtest/googletest/googlemock/CMakeFiles/gmock_main.dir/build.make Gtest/googletest/googlemock/CMakeFiles/gmock_main.dir/build
+	$(MAKE) $(MAKESILENT) -f googletest/googlemock/CMakeFiles/gmock_main.dir/build.make googletest/googlemock/CMakeFiles/gmock_main.dir/build
 .PHONY : gmock_main/fast
 
 #=============================================================================
@@ -233,7 +223,7 @@ gtest: cmake_check_build_system
 
 # fast build rule for target.
 gtest/fast:
-	$(MAKE) $(MAKESILENT) -f Gtest/googletest/googletest/CMakeFiles/gtest.dir/build.make Gtest/googletest/googletest/CMakeFiles/gtest.dir/build
+	$(MAKE) $(MAKESILENT) -f googletest/googletest/CMakeFiles/gtest.dir/build.make googletest/googletest/CMakeFiles/gtest.dir/build
 .PHONY : gtest/fast
 
 #=============================================================================
@@ -246,80 +236,48 @@ gtest_main: cmake_check_build_system
 
 # fast build rule for target.
 gtest_main/fast:
-	$(MAKE) $(MAKESILENT) -f Gtest/googletest/googletest/CMakeFiles/gtest_main.dir/build.make Gtest/googletest/googletest/CMakeFiles/gtest_main.dir/build
+	$(MAKE) $(MAKESILENT) -f googletest/googletest/CMakeFiles/gtest_main.dir/build.make googletest/googletest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
 
-banking/Account.o: banking/Account.cpp.o
-.PHONY : banking/Account.o
+#=============================================================================
+# Target rules for targets named banking
+
+# Build rule for target.
+banking: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 banking
+.PHONY : banking
+
+# fast build rule for target.
+banking/fast:
+	$(MAKE) $(MAKESILENT) -f banking/CMakeFiles/banking.dir/build.make banking/CMakeFiles/banking.dir/build
+.PHONY : banking/fast
+
+tests/test_acc.o: tests/test_acc.cpp.o
+.PHONY : tests/test_acc.o
 
 # target to build an object file
-banking/Account.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/banking.dir/build.make CMakeFiles/banking.dir/banking/Account.cpp.o
-.PHONY : banking/Account.cpp.o
+tests/test_acc.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_acc.dir/build.make CMakeFiles/test_acc.dir/tests/test_acc.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tr.dir/build.make CMakeFiles/test_tr.dir/tests/test_acc.cpp.o
+.PHONY : tests/test_acc.cpp.o
 
-banking/Account.i: banking/Account.cpp.i
-.PHONY : banking/Account.i
-
-# target to preprocess a source file
-banking/Account.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/banking.dir/build.make CMakeFiles/banking.dir/banking/Account.cpp.i
-.PHONY : banking/Account.cpp.i
-
-banking/Account.s: banking/Account.cpp.s
-.PHONY : banking/Account.s
-
-# target to generate assembly for a file
-banking/Account.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/banking.dir/build.make CMakeFiles/banking.dir/banking/Account.cpp.s
-.PHONY : banking/Account.cpp.s
-
-banking/Transaction.o: banking/Transaction.cpp.o
-.PHONY : banking/Transaction.o
-
-# target to build an object file
-banking/Transaction.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/banking.dir/build.make CMakeFiles/banking.dir/banking/Transaction.cpp.o
-.PHONY : banking/Transaction.cpp.o
-
-banking/Transaction.i: banking/Transaction.cpp.i
-.PHONY : banking/Transaction.i
+tests/test_acc.i: tests/test_acc.cpp.i
+.PHONY : tests/test_acc.i
 
 # target to preprocess a source file
-banking/Transaction.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/banking.dir/build.make CMakeFiles/banking.dir/banking/Transaction.cpp.i
-.PHONY : banking/Transaction.cpp.i
+tests/test_acc.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_acc.dir/build.make CMakeFiles/test_acc.dir/tests/test_acc.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tr.dir/build.make CMakeFiles/test_tr.dir/tests/test_acc.cpp.i
+.PHONY : tests/test_acc.cpp.i
 
-banking/Transaction.s: banking/Transaction.cpp.s
-.PHONY : banking/Transaction.s
-
-# target to generate assembly for a file
-banking/Transaction.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/banking.dir/build.make CMakeFiles/banking.dir/banking/Transaction.cpp.s
-.PHONY : banking/Transaction.cpp.s
-
-tests/test1.o: tests/test1.cpp.o
-.PHONY : tests/test1.o
-
-# target to build an object file
-tests/test1.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/test1.cpp.o
-.PHONY : tests/test1.cpp.o
-
-tests/test1.i: tests/test1.cpp.i
-.PHONY : tests/test1.i
-
-# target to preprocess a source file
-tests/test1.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/test1.cpp.i
-.PHONY : tests/test1.cpp.i
-
-tests/test1.s: tests/test1.cpp.s
-.PHONY : tests/test1.s
+tests/test_acc.s: tests/test_acc.cpp.s
+.PHONY : tests/test_acc.s
 
 # target to generate assembly for a file
-tests/test1.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/test1.cpp.s
-.PHONY : tests/test1.cpp.s
+tests/test_acc.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_acc.dir/build.make CMakeFiles/test_acc.dir/tests/test_acc.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tr.dir/build.make CMakeFiles/test_tr.dir/tests/test_acc.cpp.s
+.PHONY : tests/test_acc.cpp.s
 
 # Help Target
 help:
@@ -333,22 +291,16 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... test"
 	@echo "... banking"
 	@echo "... gmock"
 	@echo "... gmock_main"
 	@echo "... gtest"
 	@echo "... gtest_main"
-	@echo "... tests"
-	@echo "... banking/Account.o"
-	@echo "... banking/Account.i"
-	@echo "... banking/Account.s"
-	@echo "... banking/Transaction.o"
-	@echo "... banking/Transaction.i"
-	@echo "... banking/Transaction.s"
-	@echo "... tests/test1.o"
-	@echo "... tests/test1.i"
-	@echo "... tests/test1.s"
+	@echo "... test_acc"
+	@echo "... test_tr"
+	@echo "... tests/test_acc.o"
+	@echo "... tests/test_acc.i"
+	@echo "... tests/test_acc.s"
 .PHONY : help
 
 
