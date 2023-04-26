@@ -30,7 +30,7 @@ jobs:
         run: sudo apt-get install -y lcov
       - name: cover
         run: |
-          lcov --exclude '../' --exclude 'googletest'
+          lcov --remove '../' --remove 'googletest'
           lcov -c -d _build/  -o ./lcov_tmp.info
       - name: save coverage
         uses: coverallsapp/github-action@master
