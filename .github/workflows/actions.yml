@@ -29,25 +29,12 @@ jobs:
         run: sudo apt-get install -y lcov
       - name: Generate coverage report
         run: |
-          lcov --directory _build --capture --output-file coverage.info
-          lcov --remove coverage.info '/usr/*' --output-file coverage.info
-          lcov --remove coverage.info '*/googletest/*' --output-file coverage.info
+          lcov --directory _build --capture --output-file ./coverage.info
+          lcov --remove ./coverage.info '/usr/*' --output-file ./coverage.info
+          lcov --remove ./coverage.info '*/googletest/*' --output-file ./coverage.info
           lcov --list coverage.info
-      - name: Upload coverage to Coveralls
-        uses: coverallsapp/github-action@v2.0.0
+      - name: save coverage
+        uses: coverallsapp/github-action@master
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: coverage.info
-      - name: Archive source code
-        run: zip -r source.zip .
-        if: always()
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: source-code
-          path: source.zip
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-report
-          path: coverage.info
+            path-to-lcov: "./coverage.info"
+            github-token: ${{ secrets.github_token }}
