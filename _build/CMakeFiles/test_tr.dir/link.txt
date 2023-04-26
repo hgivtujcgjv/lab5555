@@ -1,1 +1,0 @@
-/usr/bin/c++  -I./googletest CMakeFiles/test_tr.dir/tests/test_acc.cpp.o -o test_tr  lib/libgtest_main.a lib/libgmock_main.a banking/libbanking.a --coverage lib/libgmock.a lib/libgtest.a 
