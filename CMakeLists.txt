@@ -9,7 +9,6 @@ project(lab5555)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/googletest)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/banking)
         
-if(COVERAGE)
   add_executable(test_acc tests/test_acc.cpp)
   add_executable(test_tr tests/test_tr.cpp)
   target_compile_options(test_acc PRIVATE --coverage)
