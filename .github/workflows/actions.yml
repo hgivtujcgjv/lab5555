@@ -1,6 +1,4 @@
-
 name: CI
-
 
 on:
   push:
@@ -12,35 +10,44 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: 1
+      - uses: actions/checkout@v2
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libboost-test-dev
-      - name: 2
+      - name: Configure CMake
         run: cmake -H. -B_build -DCOVERAGE=ON
-      - name: 3
+      - name: Build
         run: cmake --build _build
-      - name: 4
+      - name: Run tests
         run: |
           cmake --build _build --target test_acc
           cd _build
           ./test_acc
-          cd -
-      - name: lcov
+          cd ..
+      - name: Install lcov
         run: sudo apt-get install -y lcov
-      - name: cover
+      - name: Generate coverage report
         run: |
-          lcov -c -d _build/  -o ./lcov_tmp.info
-          lcov -r ./lcov_tmp.info '*googletest*'  '*usr*' -o ./lcov.info
-          genhtml lcov.info --output-directory out
-      - name: save coverage
-        uses: coverallsapp/github-action@master
+          lcov --directory _build --capture --output-file coverage.info
+          lcov --remove coverage.info '/usr/*' --output-file coverage.info
+          lcov --remove coverage.info '*/googletest/*' --output-file coverage.info
+          lcov --list coverage.info
+      - name: Upload coverage to Coveralls
+        uses: coverallsapp/github-action@v2.0.0
         with:
-            path-to-lcov: "./lcov.info"
-            github-token: ${{ secrets.github_token }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage.info
+      - name: Archive source code
+        run: zip -r source.zip .
+        if: always()
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: source-code
+          path: source.zip
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
         with:
-            name: coverage-report
-            path: out/
+          name: coverage-report
+          path: coverage.info
