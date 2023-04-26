@@ -26,6 +26,7 @@ jobs:
           cmake --build _build --target test_acc
           cd _build
           ./test_acc
+          cd -
       - name: lcov
         run: sudo apt-get install -y lcov
       - name: cover
