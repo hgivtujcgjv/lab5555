@@ -4,10 +4,9 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I./googletest")
-SET(COVERAGE OFF CACHE BOOL "Coverage")
+SET(COVERAGE ON CACHE BOOL "Coverage")
 
 project(lab5555)
-option(BUILD_TESTS "build" ON)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/googletest)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/banking)
