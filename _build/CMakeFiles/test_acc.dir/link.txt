@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/test_acc.dir/tests/test_acc.cpp.o -o test_acc  lib/libgtest_main.a lib/libgmock_main.a banking/libbanking.a --coverage lib/libgmock.a lib/libgtest.a 

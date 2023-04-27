@@ -3,11 +3,6 @@
 #include "gtest.hpp"
 
 
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
-#include "gtest.hpp"
-
-
 TEST(MockAccount, Getter) {
     MockAccount account(1,10);
     EXPECT_CALL(account, GetBalance()).WillOnce(testing::Return(10));
