@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.21)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-SET(COVERAGE OFF CACHE BOOL "Coverage")
 
 project(lab5555)
 
