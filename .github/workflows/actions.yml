@@ -20,7 +20,7 @@ jobs:
       - name: Build
         run: |
           cmake --build _build
-          cmake --build _build --target test -- ARGS=--verbose
+          cmake --build _build --target tests -- ARGS=--verbose
       - name: Run tests
         run: |
           cd _build
