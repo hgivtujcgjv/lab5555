@@ -1,131 +1,71 @@
-#pragma once
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
-#include "Transaction.h"
 #include "Account.h"
+#include "Transaction.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
-class MockAccount : public Account {
+class AccountMock : public Account {
 public:
-    MockAccount(int id, int balance) : Account(id, balance) {}
-
-    MOCK_METHOD(int, GetBalance, (), (const, override));
-    MOCK_METHOD(void, ChangeBalance, (int diff), (override));
-    MOCK_METHOD(void, Lock, (), (override));
-    MOCK_METHOD(void, Unlock, (), (override));
+    AccountMock(int id, int balance) : Account(id, balance) {}
+    MOCK_CONST_METHOD0(GetBalance, int());
+    MOCK_METHOD1(ChangeBalance, void(int diff));
+    MOCK_METHOD0(Lock, void());
+    MOCK_METHOD0(Unlock, void());
+};
+class TransactionMock : public Transaction {
+public:
+    MOCK_METHOD3(Make, bool(Account& from, Account& to, int sum));
 };
 
-
-class MockTransaction : public Transaction {
-public:
-    MOCK_METHOD(bool, Make, (Account& from, Account& to, int sum), ());
-    MOCK_METHOD(void, set_fee, (int fee), ());
-    MOCK_METHOD(int, fee, (), ());
-};
-
-
-TEST(MockAccount, Getter) {
-    MockAccount account(1,10);
-    EXPECT_CALL(account, GetBalance()).WillOnce(testing::Return(10));
-    EXPECT_EQ(10, account.GetBalance());
+TEST(Account, Mock) {
+    AccountMock acc(1, 100);
+    EXPECT_CALL(acc, GetBalance()).Times(1);
+    EXPECT_CALL(acc, ChangeBalance(testing::_)).Times(2);
+    EXPECT_CALL(acc, Lock()).Times(2);
+    EXPECT_CALL(acc, Unlock()).Times(1);
+    acc.GetBalance();
+    acc.ChangeBalance(100);
+    acc.Lock();
+    acc.ChangeBalance(100);
+    acc.Lock();
+    acc.Unlock();
 }
 
-TEST(MockAccount, ChangeBalance) {
-    MockAccount account(1,10);
-    EXPECT_CALL(account, Lock());
-    EXPECT_CALL(account, ChangeBalance(5));
-    EXPECT_CALL(account, GetBalance()).WillOnce(testing::Return(15));
-    account.Lock();
-    account.ChangeBalance(5);
-    EXPECT_EQ(15, account.GetBalance());
+TEST(Account, SimpleTest) {
+    Account acc(1, 100);
+    EXPECT_EQ(acc.id(), 1);
+    EXPECT_EQ(acc.GetBalance(), 100);
+    EXPECT_THROW(acc.ChangeBalance(100), std::runtime_error);
+    EXPECT_NO_THROW(acc.Lock());
+    acc.ChangeBalance(100);
+    EXPECT_EQ(acc.GetBalance(), 200);
+    EXPECT_THROW(acc.Lock(), std::runtime_error);
 }
 
-TEST(MockAccount, Lock) {
-    MockAccount account(1,10);
-    EXPECT_CALL(account, Lock()).Times(2).WillOnce(testing::Return()).WillOnce(testing::Throw(std::runtime_error("Already locked")));
-    account.Lock();
-    EXPECT_THROW(account.Lock(), std::runtime_error);
-}
-TEST(MockAccount, Unlock) {
-    MockAccount account(1,10);
-    EXPECT_CALL(account, Lock());
-    EXPECT_CALL(account, ChangeBalance(5));
-    EXPECT_CALL(account, Unlock());
-    EXPECT_CALL(account, ChangeBalance(-5));
-    EXPECT_CALL(account, GetBalance()).WillOnce(testing::Return(10));
-    account.Lock();
-    account.ChangeBalance(5);
-    account.Unlock();
-    account.ChangeBalance(-5);
-    EXPECT_EQ(10, account.GetBalance());
+TEST(Transaction, Mock) {
+    TransactionMock tr;
+    Account ac1(1, 50);
+    Account ac2(2, 500);
+    EXPECT_CALL(tr, Make(testing::_, testing::_, testing::_))
+    .Times(6);
+    tr.set_fee(100);
+    tr.Make(ac1, ac2, 199);
+    tr.Make(ac2, ac1, 500);
+    tr.Make(ac2, ac1, 300);
+    tr.Make(ac1, ac1, 0);
+    tr.Make(ac1, ac2, -1); 
+    tr.Make(ac1, ac2, 99);
 }
 
-
-
-
-
-
-TEST(TransactionTest, Make) {
-MockTransaction transaction;
-EXPECT_CALL(transaction, set_fee(10));
-transaction.set_fee(10);
-EXPECT_CALL(transaction, fee()).WillOnce(testing::Return(10));
-EXPECT_EQ(transaction.fee(), 10);
-MockAccount from(1, 200);
-MockAccount to(2, 100);
-EXPECT_CALL(transaction, Make(testing::Ref(from), testing::Ref(to), 100)).WillOnce(testing::Return(true));
-EXPECT_TRUE(transaction.Make(from, to, 100));
-EXPECT_CALL(from, GetBalance()).WillOnce(testing::Return(100));
-EXPECT_EQ(from.GetBalance(), 100);
-EXPECT_CALL(to, GetBalance()).WillOnce(testing::Return(200));
-EXPECT_EQ(to.GetBalance(), 200);
-
-
-}
-
-TEST(TransactionTest, MakeException) {
-MockTransaction transaction;
-MockAccount from(1, 200);
-MockAccount to(2, 100);
-EXPECT_CALL(transaction, Make(testing::Ref(from), testing::Ref(to), 10)).WillOnce(testing::Throw(std::runtime_error("too small")));
-EXPECT_THROW(transaction.Make(from, to, 10), std::runtime_error);
-}
-
-TEST(TransactionTest, MakeNot) {
-MockTransaction transaction;
-MockAccount from(1, 200);
-MockAccount to(2, 100);
-EXPECT_CALL(transaction, Make(testing::Ref(from), testing::Ref(to), 300)).WillOnce(testing::Return(false));
-EXPECT_FALSE(transaction.Make(from, to, 300));
-}
-
-TEST(TransactionTest, MakeException2) {
-MockTransaction transaction;
-MockAccount from(1, 200);
-MockAccount to(2, 100);
-EXPECT_CALL(transaction, Make(testing::Ref(from), testing::Ref(to), -100)).WillOnce(testing::Throw(std::runtime_error("sum can't be negative")));
-EXPECT_THROW(transaction.Make(from, to, -100), std::runtime_error);
-}
-
-TEST(TransactionTest, MakeException3) {
-MockTransaction transaction;
-MockAccount from(1, 200);
-MockAccount to(2, 100);
-EXPECT_CALL(transaction, set_fee(10));
-transaction.set_fee(10);
-EXPECT_CALL(transaction, fee()).WillOnce(testing::Return(10));
-EXPECT_EQ(transaction.fee(), 10);
-EXPECT_CALL(transaction, Make(testing::Ref(from), testing::Ref(to), 20)).WillOnce(testing::Return(false));
-EXPECT_FALSE(transaction.Make(from, to, 20));
-}
-
-TEST(TransactionTest, SetFee) {
-MockTransaction transaction;
-EXPECT_CALL(transaction, set_fee(10));
-transaction.set_fee(10);
-}
-
-TEST(TransactionTest, Fee) {
-MockTransaction transaction;
-EXPECT_CALL(transaction, fee()).WillOnce(testing::Return(10));
-EXPECT_EQ(transaction.fee(), 10);
+TEST(Transaction, SimpleTest) {
+    Transaction tr;
+    Account ac1(1, 50);
+    Account ac2(2, 500);
+    tr.set_fee(100);
+    EXPECT_EQ(tr.fee(), 100);
+    EXPECT_THROW(tr.Make(ac1, ac1, 0), std::logic_error);
+    EXPECT_THROW(tr.Make(ac1, ac2, -1), std::invalid_argument);
+    EXPECT_THROW(tr.Make(ac1, ac2, 99), std::logic_error);
+    EXPECT_FALSE(tr.Make(ac1, ac2, 199));
+    EXPECT_FALSE(tr.Make(ac2, ac1, 500));
+    EXPECT_FALSE(tr.Make(ac2, ac1, 300));
 }
