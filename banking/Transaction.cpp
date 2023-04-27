@@ -50,10 +50,6 @@ void Transaction::Credit(Account& accout, int sum) {
 
 bool Transaction::Debit(Account& accout, int sum) {
   assert(sum > 0);
-  if (accout.GetBalance() > sum) {
-    accout.ChangeBalance(-sum);
-    return true;
-  }
   return false;
 }
 
