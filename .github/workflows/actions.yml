@@ -16,7 +16,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libboost-test-dev
       - name: Configure CMake
-        run: cmake -H. -B_build -DCOVERAGE=ON
+        run: cmake -H. -B_build -DBUILD_TESTS=ON=ON
       - name: Build
         run: |
           cmake --build _build
