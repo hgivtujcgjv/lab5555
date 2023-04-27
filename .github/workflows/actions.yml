@@ -22,8 +22,10 @@ jobs:
       - name: Run tests
         run: |
           cmake --build _build --target test_acc
+          cmake --build _build --target test_tr
           cd _build
           ./test_acc
+          ./test_tr
           cd ..
       - name: Install lcov
         run: sudo apt-get install -y lcov
