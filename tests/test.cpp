@@ -1,6 +1,68 @@
+#pragma once
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include "gtest.hpp"
+#include "Transaction.h"
+#include "Account.h"
+
+class MockAccount : public Account {
+public:
+    MockAccount(int id, int balance) : Account(id, balance) {}
+
+    MOCK_METHOD(int, GetBalance, (), (const, override));
+    MOCK_METHOD(void, ChangeBalance, (int diff), (override));
+    MOCK_METHOD(void, Lock, (), (override));
+    MOCK_METHOD(void, Unlock, (), (override));
+};
+
+
+class MockTransaction : public Transaction {
+public:
+    MOCK_METHOD(bool, Make, (Account& from, Account& to, int sum), ());
+    MOCK_METHOD(void, set_fee, (int fee), ());
+    MOCK_METHOD(int, fee, (), ());
+};
+
+
+TEST(MockAccount, Getter) {
+    MockAccount account(1,10);
+    EXPECT_CALL(account, GetBalance()).WillOnce(testing::Return(10));
+    EXPECT_EQ(10, account.GetBalance());
+}
+
+TEST(MockAccount, ChangeBalance) {
+    MockAccount account(1,10);
+    EXPECT_CALL(account, Lock());
+    EXPECT_CALL(account, ChangeBalance(5));
+    EXPECT_CALL(account, GetBalance()).WillOnce(testing::Return(15));
+    account.Lock();
+    account.ChangeBalance(5);
+    EXPECT_EQ(15, account.GetBalance());
+}
+
+TEST(MockAccount, Lock) {
+    MockAccount account(1,10);
+    EXPECT_CALL(account, Lock()).Times(2).WillOnce(testing::Return()).WillOnce(testing::Throw(std::runtime_error("Already locked")));
+    account.Lock();
+    EXPECT_THROW(account.Lock(), std::runtime_error);
+}
+TEST(MockAccount, Unlock) {
+    MockAccount account(1,10);
+    EXPECT_CALL(account, Lock());
+    EXPECT_CALL(account, ChangeBalance(5));
+    EXPECT_CALL(account, Unlock());
+    EXPECT_CALL(account, ChangeBalance(-5));
+    EXPECT_CALL(account, GetBalance()).WillOnce(testing::Return(10));
+    account.Lock();
+    account.ChangeBalance(5);
+    account.Unlock();
+    account.ChangeBalance(-5);
+    EXPECT_EQ(10, account.GetBalance());
+}
+
+
+
+
+
 
 TEST(TransactionTest, Make) {
 MockTransaction transaction;
